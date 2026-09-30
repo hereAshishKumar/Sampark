@@ -11,7 +11,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'sampark_hackathon_super_secret_key
 let twilioClient = null;
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const verifyServiceSid = process.env.TWILIO_VERIFY_SERVICE_SID || 'VA08dcf91f921ee15f096fd272f4b6bb78';
+const verifyServiceSid = process.env.TWILIO_VERIFY_SERVICE_SID;
 
 if (accountSid && authToken && accountSid.startsWith('AC')) {
   try {

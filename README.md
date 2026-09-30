@@ -1,47 +1,51 @@
 # 🌐 संपर्क (Sampark) — Universal Phone-to-Email Platform
 
 > **"Your Digital Post — आपका डिजिटल डाकघर — உங்கள் டிஜிட்டல் அஞ்சலகம்"**  
-> *Built for the **AlphaStack 7-Day Buildathon** organized by **CEDI, NIT Trichy**.*
+> *Developed for the **AlphaStack 7-Day Buildathon** organized by **CEDI, NIT Trichy**.*  
+> **Repository:** [https://github.com/hereAshishKumar/Sampark](https://github.com/hereAshishKumar/Sampark)
 
 ---
 
-## 🌟 The Problem & Social Impact
+## 🌾 1. Approach & Social Impact
 
-Over **600 million citizens in rural and semi-urban India** possess active mobile phone numbers, but do not own or know how to operate traditional email accounts (`username@gmail.com`). 
+### The Problem
+Over **600 million citizens in rural and semi-urban India** possess active mobile phone numbers, but do not own, understand, or know how to navigate traditional email accounts (`username@gmail.com`). 
 
-Yet, accessing vital government schemes (DBT, PM-Kisan, fertilizer subsidies, pension portals), banking correspondence (SBI, Gramin banks), competitive exam notices, and legal documentation strictly requires a valid email address.
+Yet, accessing vital government schemes (DBT, PM-Kisan, fertilizer subsidies, pension portals), banking correspondence (SBI, Gramin banks), competitive exam notices, and legal documentation strictly requires a valid email address. Existing email systems alienate rural citizens with:
+1. **Password Barriers**: Forgotten passwords lock users out permanently.
+2. **Language Jargon**: Complex interfaces saturated with English terminology.
+3. **Literacy Barriers**: Inability to read long bureaucratic letters or type replies.
 
-**संपर्क (Sampark)** bridges this digital divide by turning every citizen's 10-digit mobile number directly into a verified, functional email address:
-$$\mathbf{+91\ 98765\ 43210} \implies \mathbf{9876543210@sampark.in}$$
+### Our Approach: संपर्क (Sampark)
+**संपर्क** transforms every citizen's 10-digit mobile number directly into a universally valid, functional email address:
+$$\mathbf{+91\ 92365\ 31947} \implies \mathbf{9236531947@sampark.in}$$
 
 - **100% Passwordless**: Login using just Mobile Number + 6-digit OTP.
-- **Voice OTP Verification**: Audio speaker readout for low-literacy users, SMS OTP, or automated phone call.
+- **3-Way Voice OTP**: Audio speaker readout for low-literacy users, SMS OTP, or automated phone call.
 - **Inbound Local SMTP Server (:2525)**: Listens for real emails from external organizations, government portals, and banks.
-- **Instant SMS & Voice IVR Alerts**: Automated notifications when new mail arrives.
+- **Instant SMS & Voice Alerts**: Automated notifications when new mail arrives.
 - **Female Voice Assistant & Regional Translator**: 1-tap translation into pure Hindi/Tamil with natural voice playback.
-- **Sampark Saathi AI**: Translates complex bureaucratic notices into simple, everyday village language.
+- **संपर्क साथी (AI Assistant)**: Translates complicated bureaucratic notices into simple, everyday village language.
 
 ---
 
-## ✨ Key Features & Innovations
+## 🛠️ 2. Tech Stack
 
-| Feature | Description |
-| :--- | :--- |
-| 📱 **Universal Email Mapping** | Citizen mobile numbers automatically become valid email addresses (`9876543210@sampark.in`). |
-| 🔑 **3-Way Voice OTP Login** | Verify via SMS, listen aloud via female voice speaker, or receive an automated Twilio voice call. |
-| 📥 **Local SMTP Server (:2525)** | Full RFC 5322 mail transfer receiver built in Node.js that parses inbound emails and routes them to user mailboxes. |
-| 🤖 **संपर्क साथी (Sampark Saathi AI)** | In-app AI assistant that explains complicated legal/banking emails in simple rural language. |
-| 🌐 **1-Tap Regional Translator** | Instant sentence-by-sentence translation with female voice audio synthesis. |
-| 🗣️ **Trilingual Accessibility** | 100% pure **हिंदी (Hindi)**, **தமிழ் (Tamil)**, or **English** without confusing bracketed text. |
-| 📤 **Complete Folder Stream** | All Mail, Unread, Sent Mail, Starred, Read, Drafts, Spam, and Trash with real-time sync. |
-| 🧹 **Compose Auto-Erase Engine** | Automatic data purging upon sending and clean state reset for new messages. |
-| 🌓 **Day / Night Mode** | Elevated cards with soft blurry shadow borders for maximum contrast under sunlight or nighttime reading. |
-| 📟 **In-App Live Phone Simulator** | Built-in interactive virtual smartphone with real-time SSE stream for 100% foolproof hackathon judging demonstrations. |
-| 🐳 **100% Dockerized** | Launch the entire multi-service stack with a single command: `docker compose up -d`. |
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend Framework** | **React 18** + **Vite** | Blazing-fast client application with instant HMR and lightweight bundle size. |
+| **Styling & Design System** | **Tailwind CSS** | Custom rural-accessible palette, Day/Night mode, and soft blurry card elevation. |
+| **Voice Accessibility** | **Web Speech API** (TTS & STT) | Native browser regional speech synthesis (Female assistant voice) & voice dictation. |
+| **Backend Runtime** | **Node.js (v20 LTS)** + **Express** | REST API endpoints, session management, and Server-Sent Events (SSE). |
+| **Inbound SMTP Engine** | **`smtp-server`** + **`mailparser`** | RFC 5322 local mail receiver running on port `2525` that parses real incoming emails. |
+| **Telephony & SMS** | **Twilio SDK** + **SSE Stream** | Dual-mode SMS/IVR alerts (Carrier gateway + in-app virtual phone simulator). |
+| **Database & Persistence** | **SQLite** (`better-sqlite3`) | Fast, zero-config relational storage for users, mailboxes, and audit logs. |
+| **Reverse Proxy & Web Server** | **Nginx Alpine** | Production web server in frontend container with `/api/` reverse proxy. |
+| **Containerization** | **Docker** & **Docker Compose** | Multi-stage Dockerfiles and single-command local orchestration. |
 
 ---
 
-## 🏛️ System Architecture
+## 🏛️ 3. System Architecture
 
 ```mermaid
 flowchart TD
@@ -49,21 +53,21 @@ flowchart TD
     
     subgraph SamparkBackend ["संपर्क Backend Engine (:5000)"]
         SmtpServer -->|mailparser| EmailEngine["Email Parsing & Routing"]
-        EmailEngine --> DB[("Database Storage\n(Users, OTPs, Emails, Logs)")]
+        EmailEngine --> DB[("SQLite Database\n(Users, Mailboxes, OTPs, Logs)")]
         EmailEngine --> Dispatcher["Notification & IVR Dispatcher"]
-        AuthService["OTP Auth Service"] --> DB
+        AuthService["Passwordless OTP Service"] --> DB
         RestAPI["Express REST API"] --> DB
-        AiEngine["AI Explainer & Translator"] --> DB
+        AiEngine["संपर्क साथी AI Explainer & Translator"] --> DB
     end
 
-    Dispatcher -->|Twilio REST API| RealTwilio["Twilio SMS & Voice IVR"]
+    Dispatcher -->|Twilio REST API| RealTwilio["Twilio Carrier SMS & Voice IVR"]
     Dispatcher -->|Server-Sent Events| LiveSimulator["In-App Telephony Drawer"]
 
     subgraph SamparkFrontend ["संपर्क Responsive Web UI (:3000)"]
         direction TB
         MobileView["📱 Mobile Interface (Prioritized)\n- Clean Touch Cards\n- Sent Mail & Folder Carousel\n- Instant Listen Button\n- Voice Dictation"]
         DesktopView["💻 Desktop Interface\n- 3-Panel Split Reader\n- Blurry Border Elevation\n- Search & Filters"]
-        LangEngine["🌐 Trilingual Engine (HI / TA / EN)"]
+        LangEngine["🌐 Trilingual Engine (Pure HI / TA / EN)"]
         VirtualPhone["📟 Virtual Phone Mockup & Keypad"]
         AiAssistant["🤖 संपर्क साथी (AI Assistant)"]
     end
@@ -75,107 +79,96 @@ flowchart TD
 
 ---
 
-## 🚀 Quickstart Guide
+## ⚙️ 4. How to Setup Your Project (Step-by-Step)
 
-### Option 1: One-Click Launch via Docker Compose (Recommended)
+### 🐳 Method 1: One-Click Launch via Docker Compose (Recommended for Evaluators)
+
+Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop/) or Docker daemon is running:
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/hereAshishKumar/Sampark.git
+cd Sampark
+
+# 2. Build and launch all services in detached mode
 docker compose up -d --build
 ```
 
-- **Frontend Web App**: [http://localhost:3000](http://localhost:3000)
-- **Backend API & SSE**: [http://localhost:5000](http://localhost:5000)
-- **Local SMTP Receiver**: `localhost:2525`
+**Services Running:**
+* 🌐 **Frontend Web Client**: [http://localhost:3000](http://localhost:3000)
+* ⚙️ **Backend REST API**: [http://localhost:5000](http://localhost:5000)
+* 📬 **Inbound Local SMTP Server**: `localhost:2525`
 
-To stop the containers:
+**To Stop:**
 ```bash
 docker compose down
 ```
 
 ---
 
-### Option 2: Running Locally with Node.js
+### 💻 Method 2: Manual Local Setup (Node.js)
 
 #### Prerequisites
-- Node.js v18+ (tested on Node.js v20 LTS)
-- npm v9+
+* **Node.js** v18+ (tested on Node.js v20 LTS)
+* **npm** v9+
 
-#### 1. Start the Backend & SMTP Server
+#### Step 1: Start the Backend & Local SMTP Server
 ```bash
 cd apps/backend
 npm install
 npm start
 ```
-*The backend API will run on `http://localhost:5000` and the SMTP server on port `2525`.*
+* Backend REST API will start on: `http://localhost:5000`
+* Local SMTP Server will listen on: `localhost:2525`
 
-#### 2. Start the Frontend Web App
+#### Step 2: Start the Frontend Web Client
+In a separate terminal window:
 ```bash
 cd apps/frontend
 npm install
 npm run dev
 ```
-*The web client will run on `http://localhost:3000` (and on your local Wi-Fi IP for real phone testing).*
+* Open your browser at: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🧪 3-Minute Live Hackathon Demo Walkthrough
+### 📨 Step 3: How to Test Inbound SMTP Mail Delivery
 
-1. **Open the Web Client**: Go to [http://localhost:3000](http://localhost:3000).
-2. **Language Selection**: Toggle between **हिंदी**, **தமிழ்**, or **EN** to see the 100% single-language interface.
-3. **Login Experience**:
-   - Enter your 10-digit mobile number (e.g., `9236531947`).
+To simulate an incoming government subsidy or bank alert arriving via SMTP into the citizen's phone mailbox, run this command in a terminal:
+
+```bash
+node scripts/send-test-email.js 9236531947 "Ministry of Agriculture" "PM Kisan 17th Installment Credited" "Namaste! Your Rs 2,000 installment for PM-Kisan Samman Nidhi has been released directly to your Aadhaar linked bank account."
+```
+
+**What Happens Instantly:**
+1. The script dispatches a real RFC 5322 MIME email to `localhost:2525`.
+2. Our local SMTP receiver intercepts and routes it to `9236531947@sampark.in`.
+3. An **instant SMS notification** pops up in the in-app phone simulator drawer!
+4. The email appears in the citizen's inbox with an unread badge.
+5. The citizen can tap **"महिला आवाज में सुनें"** to hear it read aloud in pure Hindi/Tamil, or tap **"संपर्क साथी"** for an AI explanation!
+
+---
+
+## 🧪 5. Live Hackathon Demo Walkthrough
+
+1. **Visit [http://localhost:3000](http://localhost:3000)**.
+2. **Language Toggle**: Switch between **हिंदी**, **தமிழ்**, or **EN** (100% single-language compliance).
+3. **Passwordless Login**:
+   - Enter mobile number `9236531947`.
    - Click **"ओटीपी प्राप्त करें"** (Send OTP).
    - Test **"आवाज में सुनें"** (Audio Voice OTP readout).
-   - Click the fast-track demo code chip (**123456**) to log in instantly.
-   - Watch the smooth post-login celebration splash screen transition directly into the mailbox.
-4. **Open the Live Telephony Drawer**:
-   - Click the smartphone icon in the top header.
-   - The virtual phone drawer slides out, ready to receive live SMS and calls.
-5. **Dispatch a Real Inbound Email via Local SMTP**:
-   Open a terminal and run:
-   ```powershell
-   node scripts/send-test-email.js 9236531947 "Ministry of Agriculture" "PM Kisan 17th Installment Credited" "Namaste! Your Rs 2,000 installment for PM-Kisan Samman Nidhi has been released directly to your Aadhaar linked bank account."
-   ```
-6. **Live Telephony & Inbound Arrival**:
-   - The local SMTP server intercepts the email on port `2525`.
-   - An **SMS alert instantly rings** inside the live simulator drawer.
-   - The new email appears in the mailbox with an unread indicator.
-7. **Voice Assistant & Translator**:
-   - Click **"महिला आवाज में सुनें"** to hear the email read aloud.
-   - Click **"हिंदी में अनुवाद करें"** to translate the message.
-   - Click **"संपर्क साथी"** to get an AI-simplified explanation.
-8. **Compose & Auto-Erase**:
-   - Click **"नया पत्र लिखें"** (Compose).
-   - Click **"बोलकर लिखें"** (Mic) to dictate a reply using your voice.
-   - Hit **"भेजें"** (Send). Notice all form fields are automatically erased for the next email.
-   - Open the **"📤 भेजे गए पत्र"** (Sent Mail) folder to view the dispatched message!
+   - Click demo chip **`123456`** $\rightarrow$ watch the celebration splash screen smoothly transition into the mailbox.
+4. **Telephony Drawer**: Click the smartphone icon in the top header to reveal the live virtual handset.
+5. **Send Outbound Mail**: Click **"नया पत्र लिखें"** (Compose) $\rightarrow$ speak to dictate $\rightarrow$ Send. Notice form data is automatically erased, and the dispatched letter appears in **"📤 भेजे गए पत्र"** (Sent Mail)!
 
 ---
 
-## 🔒 Security & Privacy Features
+## 🔒 6. Security, Privacy & Evaluation Testing Note
 
-- **Passwordless Zero-Trust**: Eliminates weak or reused passwords among first-time internet users.
-- **JWT Session Security**: Time-bound cryptographic tokens for authorized mailbox access.
-- **HTML Sanitization**: Prevents malicious script execution in incoming emails before rendering.
-- **Verified Sender Badges**: Distinguishes authentic government (`.gov.in`) and banking sources from untrusted senders to protect rural citizens from phishing.
-
----
-
-## 🏆 AlphaStack Buildathon Judging Checklist (CEDI NIT Trichy)
-
-- [x] **Email Application**: Inbound receiving, outbound composing, reading, archiving, and deletion.
-- [x] **Local SMTP Server**: Listens on port `2525` with RFC 5322 MIME parsing.
-- [x] **Mobile Interface (*Prioritized*)**: Touch cards, horizontal folder stream, Sent Mail section, and zero-overflow header.
-- [x] **Desktop Interface**: 3-panel widescreen layout with clear blurry border elevation in bright mode.
-- [x] **Passwordless OTP Authentication**: SMS OTP, female voice speaker readout, and automated Twilio voice call.
-- [x] **SMS Gateway & Telephony**: Twilio integration + in-app virtual phone simulator.
-- [x] **Interactive Voice Response (IVR)**: Automated phone call alerts with keypad menu.
-- [x] **Trilingual Accessibility**: English, हिंदी (Hindi), and தமிழ் (Tamil) without bracketed text.
-- [x] **Voice-First Accessibility**: Native browser Text-to-Speech (TTS) & Speech-to-Text (STT).
-- [x] **AI Assistant (Sampark Saathi)**: Simplifies complicated notices into village tongue.
-- [x] **Containerized**: Single-command launch via `docker compose up -d`.
-- [x] **Comprehensive Documentation**: Complete architecture, quickstart, and live demo script.
+- **Empty `.env` File**: An empty `apps/backend/.env` file is present in the repository and will be replaced automatically by the evaluation pipeline with the `.env` uploaded in the submission form.
+- **Zero Hardcoded Secrets**: All authentication keys and tokens are strictly decoupled and read from environment variables.
+- **Phishing Protection**: Inbound emails from government (`.gov.in`) and accredited banking institutions are verified with trusted green badges to shield rural citizens from fraud.
 
 ---
 
-*Made with ❤️ for digital inclusion in India.*
+*Made with ❤️ for digital inclusion in India by Ashish Kumar.*
