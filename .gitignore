@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production builds
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Logs & temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Database & local data
+apps/backend/data/*.json
+!apps/backend/data/.gitkeep
+*.sqlite
+*.sqlite-journal
+
+# Archives & temporary
+*.zip
+
+# OS generated files
+.DS_Store
+Thumbs.db

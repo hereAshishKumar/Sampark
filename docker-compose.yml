@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    container_name: sampark-backend
+    ports:
+      - "5000:5000"   # Express REST API & SSE
+      - "2525:2525"   # Local SMTP Receiver
+    environment:
+      - PORT=5000
+      - SMTP_PORT=2525
+      - DOMAIN=sampark.in
+      - JWT_SECRET=sampark_hackathon_super_secret_key_2026
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID:-}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN:-}
+      - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER:-}
+    volumes:
+      - sampark-data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    container_name: sampark-frontend
+    ports:
+      - "3000:80"     # Web Client (Mobile & Desktop)
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  sampark-data:

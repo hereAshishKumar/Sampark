@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', system-ui, sans-serif;
+  }
+}
+
+/* Touch optimization for rural mobile devices */
+button, a, input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Pulse animation for voice speaker */
+@keyframes audioPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.speaking-pulse {
+  animation: audioPulse 1.2s infinite ease-in-out;
+}
+
+/* Floating ambient rural elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(4deg);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Celebration splash animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(245, 158, 11, 0.8), 0 0 80px rgba(16, 185, 129, 0.4);
+  }
+}
+
+.animate-pulseGlow {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
