@@ -2,7 +2,17 @@
 
 > **"Your Digital Post — आपका डिजिटल डाकघर — உங்கள் டிஜிட்டல் அஞ்சலகம்"**  
 > *Developed for the **AlphaStack 7-Day Buildathon** organized by **CEDI, NIT Trichy**.*  
-> **Repository:** [https://github.com/hereAshishKumar/Sampark](https://github.com/hereAshishKumar/Sampark)
+> **Repository:** [https://github.com/hereAshishKumar/Sampark](https://github.com/hereAshishKumar/Sampark)  
+> **Video Demonstration:** [https://youtu.be/WcwRu-rmi4k](https://youtu.be/WcwRu-rmi4k)
+
+---
+
+## 📺 Video Demonstration
+
+[![Sampark Video Demonstration](https://img.youtube.com/vi/WcwRu-rmi4k/hqdefault.jpg)](https://youtu.be/WcwRu-rmi4k)
+
+> 🎥 **Watch the complete project walkthrough & live demonstration on YouTube:**  
+> 👉 **[https://youtu.be/WcwRu-rmi4k](https://youtu.be/WcwRu-rmi4k)**
 
 ---
 
